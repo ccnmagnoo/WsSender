@@ -37,7 +37,7 @@ SELECTORES_CAJA_MENSAJE = [
 MENSAJE_ERROR = "[ERROR]"
 
 
-class EnvioResultado:
+class SendResult:
     def __init__(self):
         self.enviados = 0
         self.omitidos = 0
@@ -59,7 +59,7 @@ class EnvioResultado:
         return "\n".join(lineas)
 
 
-def configurar_logging():
+def config_logging():
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s | %(levelname)s | %(message)s",
@@ -70,18 +70,18 @@ def configurar_logging():
     )
 
 
-def cargar_plantilla(ruta):
+def load_template(path):
     try:
-        texto = ruta.read_text(encoding="utf-8").strip()
+        texto = path.read_text(encoding="utf-8").strip()
         if not texto:
             raise ValueError("La plantilla está vacía.")
         return texto
     except FileNotFoundError:
-        logging.error(f"No se encontró la plantilla: {ruta}")
+        logging.error(f"No se encontró la plantilla: {path}")
         sys.exit(1)
 
 
-def cargar_contactos(ruta):
+def load_contact_list(ruta):
     try:
         with ruta.open(encoding="utf-8-sig", newline="") as f:
             return list(csv.DictReader(f))
@@ -90,7 +90,7 @@ def cargar_contactos(ruta):
         sys.exit(1)
 
 
-def normalizar_telefono(numero, codigo_pais):
+def phone_normalize(numero, codigo_pais):
     solo_digitos = re.sub(r"\D", "", str(numero))
     if solo_digitos.startswith("00"):
         solo_digitos = solo_digitos[2:]
@@ -105,7 +105,7 @@ def normalizar_telefono(numero, codigo_pais):
     return solo_digitos
 
 
-def rellenar_plantilla(plantilla, fila):
+def fill_template(plantilla, fila):
     campos = {
         "nombre": (fila.get("nombre") or "").strip() or "estimado(a)",
         "cargo": (fila.get("cargo") or "").strip() or "su cargo",
@@ -117,7 +117,7 @@ def rellenar_plantilla(plantilla, fila):
     return mensaje
 
 
-def crear_driver():
+def create_driver():
     opciones = Options()
     opciones.add_argument("--start-maximized")
     opciones.add_argument("--disable-blink-features=AutomationControlled")
@@ -142,7 +142,7 @@ def crear_driver():
     return driver
 
 
-def esperar_caja_mensaje(driver, numero):
+def load_message_box(driver, numero):
     for by, selector in SELECTORES_CAJA_MENSAJE:
         try:
             return WebDriverWait(driver, TIMEOUT).until(
@@ -164,7 +164,7 @@ def esperar_caja_mensaje(driver, numero):
         raise RuntimeError(f"No se encontró la caja de mensaje para {numero}")
 
 
-def escribir_mensaje(caja, mensaje):
+def write_message(caja, mensaje):
     caja.click()
     lineas = mensaje.splitlines()
     for i, linea in enumerate(lineas):
@@ -175,16 +175,16 @@ def escribir_mensaje(caja, mensaje):
     caja.send_keys(Keys.ENTER)
 
 
-def enviar_a_contacto(driver, numero, mensaje):
+def send_to_contact(driver, numero, mensaje):
     url = f"https://web.whatsapp.com/send?phone={numero}"
     driver.get(url)
-    caja = esperar_caja_mensaje(driver, numero)
-    escribir_mensaje(caja, mensaje)
+    caja = load_message_box(driver, numero)
+    write_message(caja, mensaje)
     time.sleep(2)
     return True
 
 
-def pausa_aleatoria():
+def random_pause():
     segundos = random.randint(MIN_DELAY, MAX_DELAY)
     logging.info(f"Esperando {segundos} s antes del siguiente contacto...")
     for restante in range(segundos, 0, -1):
@@ -211,14 +211,14 @@ def main():
     )
     args = parser.parse_args()
 
-    configurar_logging()
-    plantilla = cargar_plantilla(Path(args.mensaje))
-    contactos = cargar_contactos(Path(args.csv))
-    resultado = EnvioResultado()
+    config_logging()
+    plantilla = load_template(Path(args.mensaje))
+    contactos = load_contact_list(Path(args.csv))
+    resultado = SendResult()
 
     logging.info(f"Cargados {len(contactos)} contactos desde {args.csv}")
     logging.info("Iniciando navegador. Si es la primera vez, escanea el código QR con tu WhatsApp.")
-    driver = crear_driver()
+    driver = create_driver()
     logging.info("Navegador listo. Conectando a WhatsApp Web...")
 
     try:
@@ -237,16 +237,16 @@ def main():
     try:
         for idx, fila in enumerate(contactos, start=1):
             numero_original = fila.get("telefono", "").strip()
-            numero = normalizar_telefono(numero_original, CODIGO_PAIS)
+            numero = phone_normalize(numero_original, CODIGO_PAIS)
             nombre = (fila.get("nombre") or "").strip() or "sin nombre"
             if numero is None:
                 logging.warning(f"[{idx}] {nombre}: teléfono inválido ({numero_original}) -> omitido")
                 resultado.omitidos += 1
                 continue
 
-            mensaje = rellenar_plantilla(plantilla, fila)
+            mensaje = fill_template(plantilla, fila)
             try:
-                enviar_a_contacto(driver, numero, mensaje)
+                send_to_contact(driver, numero, mensaje)
                 resultado.enviados += 1
                 logging.info(f"[{idx}] ENVIADO -> {nombre} ({numero})")
             except Exception as e:
@@ -256,7 +256,7 @@ def main():
 
             if not args.no_delay and idx < len(contactos):
                 try:
-                    pausa_aleatoria()
+                    random_pause()
                 except KeyboardInterrupt:
                     logging.info("Ejecución detenida por el usuario.")
                     break
