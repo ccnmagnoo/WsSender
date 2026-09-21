@@ -1,0 +1,28 @@
+# Datos personales y sensibles
+contactos.csv
+resultado.log
+*.log
+
+# Sesión del navegador (¡contiene tu sesión activa de WhatsApp!)
+chrome_profile/
+chrome_profile_*/
+*_profile/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+
+# Entorno y editores
+.env
+.venv
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
