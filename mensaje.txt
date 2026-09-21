@@ -1,7 +1,7 @@
 Buen día {nombre}, 
 junto con saludar y desearle unas excelentes fiestas patrias, 
 mi nombre es Carlos Campos , y le escribo a 
-nombre del Seremi de Energía don Celso Quezada.
+nombre del {test}.
 
 Escribimos por motivo de la invitación de la Ministra de Energía la Sra. Ximena Rincón
 a la próxima Jornada de Trabajo Nacional sobre  **La Reforma de las Redes Eléctricas**, 

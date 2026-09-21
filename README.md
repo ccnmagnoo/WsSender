@@ -67,8 +67,8 @@ Ejemplo:
 
 ```csv
 telefono,nombre,cargo,comuna
-+56948611376,Carlos,Analista Regional,Viña del Mar
-+56912345678,Juan Pérez,Analista Universal,Valparaíso
++56912341234,Carlos,Analista Regional,Viña del Mar
++56946784568,Juan Pérez,Analista Universal,Valparaíso
 ```
 
 - El script limpia los números (quita símbolos) y agrega el prefijo `56` si el número empieza con `9` o `3`.
