@@ -1,16 +1,16 @@
-Buen día {nombre}, 
-junto con saludar y desearle unas excelentes fiestas patrias, 
+Buen día, 
+junto con saludar {tto} {nombre}, 
 mi nombre es Carlos Campos , y le escribo a 
-nombre del {test}.
+nombre del Seremi de Energía don Celso Quezada.
 
-Escribimos por motivo de la invitación de la Ministra de Energía la Sra. Ximena Rincón
-a la próxima Jornada de Trabajo Nacional sobre  **La Reforma de las Redes Eléctricas**, 
-donde se discutirán respecto a aspectos regulatorio de las redes de distribución y transmisión eléctrica, 
+Me comunico por motivo de la invitación de la Ministra de Energía la Sra. Ximena Rincón
+a la próxima Jornada de Trabajo Nacional sobre  **La Reforma de las Redes Eléctricas**,
+que se realizaron a alcaldes y alcaldesas del país, donde se discutirán respecto 
+a aspectos regulatorio de las redes de distribución y transmisión eléctrica, 
 cuya propuesta que se lanzará para diciembre del presente año.
 
-Queremos extender esta invitación a la comuna de {comuna}
-para que sean parte y voz de esta importante jornada 
-donde se pueda recoger la opinión de la autoridad comunal. 
+En un principio sólo estaban invitada la máxima autoridad de {comuna},
+pero actualmente **se permite que participen representantes de la autoridad** 
 
 La actividad se realizará el próximo 
 🗓️**viernes 25 de septiembre de 9 a 13 horas.**
@@ -18,8 +18,8 @@ La actividad se realizará el próximo
 Av. Libertador Bernardo O'Higgins 390, Santiago. 
 Metro Universidad Católica, L1.
 
-🚨Destacar que la invitación es exclusiva 
-para alcaldes y alcaldesas de Chile.
+🚨Destacar que se permiten hasta 2 representantes por comuna,
+ya sean las unidades SECPLAC, DIDECO, u otra a fin al tema.
 
 Su gusta puede avisarnos por este medio o
 directamente a mnavarrete@minenergia.cl

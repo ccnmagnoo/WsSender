@@ -110,6 +110,7 @@ def fill_template(plantilla, fila):
         "nombre": (fila.get("nombre") or "").strip() or "estimado(a)",
         "cargo": (fila.get("cargo") or "").strip() or "su cargo",
         "comuna": (fila.get("comuna") or "").strip() or "su comuna",
+        "tto": (fila.get("tto") or "").strip() or "Sres.",
     }
     mensaje = plantilla
     for clave, valor in campos.items():
